@@ -1,0 +1,50 @@
+version = 1
+requires-python = ">=3.13"
+
+[[package]]
+name = "duckdb"
+version = "1.1.3"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/a0/d7/ec014b351b6bb026d5f473b1d0ec6bd6ba40786b9abbf530b4c9041d9895/duckdb-1.1.3.tar.gz", hash = "sha256:68c3a46ab08836fe041d15dcbf838f74a990d551db47cb24ab1c4576fc19351c", size = 12240672 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/81/d1/2462492531d4715b2ede272a26519b37f21cf3f8c85b3eb88da5b7be81d8/duckdb-1.1.3-cp313-cp313-macosx_12_0_arm64.whl", hash = "sha256:0897f83c09356206ce462f62157ce064961a5348e31ccb2a557a7531d814e70e", size = 15483282 },
+    { url = "https://files.pythonhosted.org/packages/af/a5/ec595aa223b911a62f24393908a8eaf8e0ed1c7c07eca5008f22aab070bc/duckdb-1.1.3-cp313-cp313-macosx_12_0_universal2.whl", hash = "sha256:cddc6c1a3b91dcc5f32493231b3ba98f51e6d3a44fe02839556db2b928087378", size = 32350342 },
+    { url = "https://files.pythonhosted.org/packages/08/27/e35116ab1ada5e54e52424e52d16ee9ae82db129025294e19c1d48a8b2b1/duckdb-1.1.3-cp313-cp313-macosx_12_0_x86_64.whl", hash = "sha256:1d9ab6143e73bcf17d62566e368c23f28aa544feddfd2d8eb50ef21034286f24", size = 16953863 },
+    { url = "https://files.pythonhosted.org/packages/0d/ac/f2db3969a56cd96a3ba78b0fd161939322fb134bd07c98ecc7a7015d3efa/duckdb-1.1.3-cp313-cp313-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:2f073d15d11a328f2e6d5964a704517e818e930800b7f3fa83adea47f23720d3", size = 18494301 },
+    { url = "https://files.pythonhosted.org/packages/cf/66/d0be7c9518b1b92185018bacd851f977a101c9818686f667bbf884abcfbc/duckdb-1.1.3-cp313-cp313-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:d5724fd8a49e24d730be34846b814b98ba7c304ca904fbdc98b47fa95c0b0cee", size = 20150992 },
+    { url = "https://files.pythonhosted.org/packages/47/ae/c2df66e3716705f48775e692a1b8accbf3dc6e2c27a0ae307fb4b063e115/duckdb-1.1.3-cp313-cp313-manylinux_2_24_aarch64.manylinux_2_28_aarch64.whl", hash = "sha256:51e7dbd968b393343b226ab3f3a7b5a68dee6d3fe59be9d802383bf916775cb8", size = 18297818 },
+    { url = "https://files.pythonhosted.org/packages/8e/7e/10310b754b7ec3349c411a0a88ecbf327c49b5714e3d35200e69c13fb093/duckdb-1.1.3-cp313-cp313-musllinux_1_2_x86_64.whl", hash = "sha256:00cca22df96aa3473fe4584f84888e2cf1c516e8c2dd837210daec44eadba586", size = 21635169 },
+    { url = "https://files.pythonhosted.org/packages/83/be/46c0b89c9d4e1ba90af9bc184e88672c04d420d41342e4dc359c78d05981/duckdb-1.1.3-cp313-cp313-win_amd64.whl", hash = "sha256:77f26884c7b807c7edd07f95cf0b00e6d47f0de4a534ac1706a58f8bc70d0d31", size = 10955826 },
+]
+
+[[package]]
+name = "pyroaring"
+version = "1.0.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/9b/5d/f94b8c44960e652e070c1bc7f93f6535414bb93fad5acc3757bc605bf0fb/pyroaring-1.0.0.tar.gz", hash = "sha256:af37434d3b991ce5c167f0192d3567128668664f4c4f1b12ddbe817b80444c8d", size = 186809 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/b8/64/89a00698af974cda19954a9b0ce3a049e737bac08b399e3711200c816a9b/pyroaring-1.0.0-cp313-cp313-macosx_10_13_universal2.whl", hash = "sha256:cd6bdd3fcb28b54a24ab99820c554a0595045abf8b17f89fb7dd0c05f37ab923", size = 723931 },
+    { url = "https://files.pythonhosted.org/packages/b7/1e/417693a1b6630b277a09afe8ec1e18df779dcb904422708a7d72f3130a2e/pyroaring-1.0.0-cp313-cp313-macosx_10_13_x86_64.whl", hash = "sha256:df1d085c6bd5effa73a482a0eca8aebefc886f568a66c777678a48e67a32f196", size = 395456 },
+    { url = "https://files.pythonhosted.org/packages/75/70/9a08891ec2b18043f1ca918193e6772513661b19dfce8968ee7a997e5a9d/pyroaring-1.0.0-cp313-cp313-macosx_11_0_arm64.whl", hash = "sha256:1e40084a8d244522eee0f031d6e0f4a285484fdee1b1cc9c60d88bece07c7605", size = 335174 },
+    { url = "https://files.pythonhosted.org/packages/74/d2/ef84e0644d89d2f5b08469cae41d0a52017e5355395d676c822315f80d2b/pyroaring-1.0.0-cp313-cp313-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:803575241a5169f46fe068496a51ac0a01931f72eae80e5a9a25952ee2d80e36", size = 1893949 },
+    { url = "https://files.pythonhosted.org/packages/05/5b/4fc1c2aa00090a2a1bcfe1a56034f16f303a35aebe04fd0b2049038c6ff6/pyroaring-1.0.0-cp313-cp313-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:fa0958ef955b15fee245b3ec2405d36b9752056f8b82ef74213a6ecd4d71bbbd", size = 2109891 },
+    { url = "https://files.pythonhosted.org/packages/a9/a1/082e118496b87e30d84c494b89edf691d50d04f5b453e17e4d9584f23b1a/pyroaring-1.0.0-cp313-cp313-musllinux_1_2_aarch64.whl", hash = "sha256:f8405918a3cedda04a97cb9a19b33d475fa34241290e715d76f3f5f35a13201b", size = 2794419 },
+    { url = "https://files.pythonhosted.org/packages/44/68/d56399a5f07bb0d414e7b132b17e9ef9d26e234a2f2f65c25d33bf75ae81/pyroaring-1.0.0-cp313-cp313-musllinux_1_2_x86_64.whl", hash = "sha256:f65cc443aa5790798fbde5aac594f94acb563c58f73d56b5d3b18422b9f4c008", size = 3057989 },
+    { url = "https://files.pythonhosted.org/packages/ac/ce/050f08aa0f8d7b3ceb792e231c442b5fe1613be3e8dc1e306a534027f574/pyroaring-1.0.0-cp313-cp313-win_amd64.whl", hash = "sha256:1ce81136c7b6ecd647fc0408c1080f30123f8e4f3b156649bd357078d955e79c", size = 275183 },
+    { url = "https://files.pythonhosted.org/packages/39/89/fd84e2247aeea833c202a84448f1fe5ca85f8e55fabd018ecbadf15c82ae/pyroaring-1.0.0-cp313-cp313-win_arm64.whl", hash = "sha256:e888e7cec72e017b62dc5b95f6874f6c35313beaba5f1cf01a2454a83ef1080f", size = 223556 },
+]
+
+[[package]]
+name = "snomed-analysis"
+version = "0.1.0"
+source = { virtual = "." }
+dependencies = [
+    { name = "duckdb" },
+    { name = "pyroaring" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "duckdb", specifier = ">=1.1.3" },
+    { name = "pyroaring", specifier = ">=1.0.0" },
+]
