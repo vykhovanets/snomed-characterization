@@ -1,11 +1,33 @@
-Hi, Anton! Let's keep ising also this channel with Sulev. About SNOMED - Sulev has produced some OMOP data datavases, that you shpuld use. I hope SUlev can help to get access and guide in the process. Overall, for project, I believe the questions are:
-overall SNOMED as used in OMOP - what is the structure. I believe there could also be different types of raletionships. In GO there is at least is-a, part-of, etc types. They all are on the ontology....
-Where is our actual health data data mapped into OMOP on that structure (depths, widths, counts of actual mappings)
-Aggregation of mapped data (individuals) along the paths upward on the structure... ( individual node that has parents - the same values shopuld be mapped to higher levels).
-For woirking with sets of patients that have been mapped to each category, I believe it makes sense to immediately start using the Roaring Bitmaps - https://roaringbitmap.org/
-If you assign for one node a set of patients, then working upward in the ontology, you can simply fo the UNION (avoid repetitive counting). It is also interesting to know how scaleble all is - can you build the index of individuals over SNOMED so that every node has a bitmap representing individuals with that annotation. First - as is in the data - that is smaller; and secondly, as worked upward through UNION - larger and larger.
-Note that when working with such SNOMED it may well be that soimetimes we want to work with higher level concepts; sometimes with lower levels; sometimes perhaps the categories of the "ideal" work may be pregiven. But understanding fully the structure of the ontology and mappings, would help us design next steps. Additionally, you may have a look at some of the semantics; but at the moment I bvelieve the structure has been most important, that we do not understand within the group sufficiently at all.
-Perhaps similar could later be done withICD, ATC, RxNorm, Visits, procedures... but for first project SNOMED is large enough beast.
-I would avoid focusing on visualisations too much as this is hard and may drag attention away. If needed, you might want to learn Cytoscape and/or GraphViz. But the calculations are more important, so that we have some numeric support to our decisions on the "hot zone" that we should use in our analyses.
+# Sulev Recommendations
+Hi Anton! Let's keep using this channel with Sulev. About SNOMED - Sulev has produced some OMOP data datasets that you should use. I hope Sulev can help to get access and guide in the process.
+
+
+Overall, for our project, we need to answer:
+
+* What is the structure of overall SNOMED as used in OMOP?
+* Are there different types of relationships? (e.g., is-a, part-of, etc.)
+* Where is our actual health data mapped into OMOP on that structure?
+
+We also need to consider aggregation of mapped data along the paths upward on the structure.
+
+
+For working with sets of patients that have been mapped to each category, we believe it makes sense to immediately start using Roaring Bitmaps (https://roaringbitmap.org/).
+
+
+If you assign a set of patients to one node and work upward in the ontology, you can simply perform UNION (avoid repetitive counting). It's also interesting to know how scalable this is - can we build an index of individuals over SNOMED so that every node has a bitmap representing individuals with that annotation?
+
+
+Note that when working with SNOMED, we may need to work with higher-level concepts or lower levels; understanding the structure and mappings will help us design next steps.
+
+
+Perhaps similar approaches could be done with ICD, ATC, RxNorm, Visits, procedures... but for our first project, SNOMED is a good starting point.
+
+
+We would avoid focusing on visualizations too much as this can be hard and may distract from the calculations.
+
+
+If needed, we might want to learn Cytoscape or GraphViz. But for now, let's focus on the calculations.
+
 
 [text](https://drive.google.com/drive/u/1/folders/1Ttr3XHWgJcLo_8rmTZlka6mS2uvGlLCK)
+
