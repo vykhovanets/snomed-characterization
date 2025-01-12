@@ -7,7 +7,7 @@ from .adjacency_graph import AdjacencyListGraph
 
 class SNOMEDGraph(AdjacencyListGraph[int]):
     def __init__(self):
-        self.graph = nx.Graph()
+        self.graph = nx.DiGraph()
         pass
 
     def add_edge(self, source_node_id: int, target_node_id: int, weight: float = 1.0):
@@ -22,7 +22,11 @@ class SNOMEDGraph(AdjacencyListGraph[int]):
             if not self.exists_node(parent_id):
                 self.add_concept(parent_id, [])
 
-            self.add_edge(concept_id, parent_id)
+            if not self.exists_edge(concept_id, parent_id):
+                self.add_edge(concept_id, parent_id)
+
+    def exists_edge(self, source_node_id: int, target_node_id: int) -> bool:
+        return self.graph.has_edge(source_node_id, target_node_id)
 
     def exists_node(self, source_node_id: int) -> bool:
         """
