@@ -16,8 +16,11 @@ class SNOMEDCompleteGraph(AdjacencyListGraph[RawSNOMEDConcept]):
         source_node_id: RawSNOMEDConcept,
         target_node_id: RawSNOMEDConcept,
         weight: float = 1.0,
+        relationship: str = "is_a",
     ):
-        self.graph.add_edge(source_node_id, target_node_id, weight=weight)
+        self.graph.add_edge(
+            source_node_id, target_node_id, weight=weight, relationship=relationship
+        )
 
     def add_concept(
         self,
@@ -34,7 +37,8 @@ class SNOMEDCompleteGraph(AdjacencyListGraph[RawSNOMEDConcept]):
                 continue
 
             if not self.exists_edge(concept, parent_id):
-                self.add_edge(concept, parent_id)
+                self.add_edge(concept, parent_id, relationship="is_descendant_of")
+                self.add_edge(parent_id, concept, relationship="is_ancestor_of")
 
     def exists_edge(
         self, source_node_id: RawSNOMEDConcept, target_node_id: RawSNOMEDConcept

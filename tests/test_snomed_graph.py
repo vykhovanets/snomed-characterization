@@ -7,10 +7,10 @@ class SNOMEDGraphTest(unittest.TestCase):
     def setUp(self):
         self.snomed_graph = SNOMEDGraph()
 
-    def test_snome_graph_create(self):
+    def test_snomed_graph_create(self):
         snomed = SNOMEDGraph()
         # check instance of networkx.Graph
-        self.assertIsInstance(snomed.graph, networkx.Graph)
+        self.assertIsInstance(snomed.graph, networkx.DiGraph)
 
     def test_snome_graph_add_concept(self):
         snomed = SNOMEDGraph()

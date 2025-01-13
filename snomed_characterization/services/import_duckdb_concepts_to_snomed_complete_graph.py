@@ -7,15 +7,7 @@ from pandas import DataFrame
 from snomed_characterization.graphs.snomed_complete_graph import SNOMEDCompleteGraph
 from snomed_characterization.snomed_concept import RawSNOMEDConcept
 
-q_concepts = """
-    select * from concept c 
-    left join concept_ancestor ca
-    on c.concept_id=ca.descendant_concept_id
-    where c.invalid_reason is  null
-    AND ca.min_levels_of_separation=1
-     and standard_concept is not null
-     and domain_id='Condition'
-"""
+from snomed_characterization.duckdb.queries import q_concepts
 
 
 class ImportDuckDBConceptsToCompleteSNOMEDGraph:
