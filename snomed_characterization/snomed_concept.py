@@ -12,6 +12,7 @@ class SNOMEDConcept:
 
 @dataclass
 class RawSNOMEDConcept:
+    ancestor_concept_id: Optional[int]
     concept_id: int
     concept_name: str
     domain_id: str
@@ -25,3 +26,11 @@ class RawSNOMEDConcept:
 
     def to_snomed_concept(self) -> SNOMEDConcept:
         return SNOMEDConcept(id=self.concept_id, name=self.concept_name)
+
+    def __hash__(self):
+        return hash(self.concept_id)
+
+    def __eq__(self, other):
+        if not isinstance(other, RawSNOMEDConcept):
+            return NotImplemented
+        return self.concept_id == other.concept_id
