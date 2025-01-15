@@ -1,10 +1,10 @@
-from typing import Optional
 from neo4j import GraphDatabase
 from snomed_characterization.services.import_duckdb_concepts_to_snomed_complete_graph import (
     ImportDuckDBConceptsToCompleteSNOMEDGraph,
 )
-from snomed_characterization.graphs.snomed_complete_graph import SNOMEDCompleteGraph
-from snomed_characterization.snomed_concept import SNOMEDConcept
+from snomed_characterization.graphs.snomed_complete_graph_builder import (
+    SNOMEDCompleteGraphBuilder,
+)
 
 
 class ImportNXGraphIntoNeo4J:
@@ -17,7 +17,7 @@ class ImportNXGraphIntoNeo4J:
     def call(self):
         """Execute the import process from NetworkX to Neo4j."""
         # Process to import the concepts from DuckDB to SNOMED Graph
-        snomed = SNOMEDCompleteGraph()
+        snomed = SNOMEDCompleteGraphBuilder()
         ImportDuckDBConceptsToCompleteSNOMEDGraph(self.db_path, snomed).call()
         nx_graph = snomed.graph
 
@@ -56,27 +56,22 @@ class ImportNXGraphIntoNeo4J:
     def _create_nodes(self, tx, graph):
         """Create SNOMED CT concept nodes in Neo4j."""
         query = """
-        CREATE (n:SNOMEDConcept {
-            concept_id: $concept_id,
-            concept_name: $concept_name,
-            domain_id: $domain_id,
-            vocabulary_id: $vocabulary_id,
-            concept_class_id: $concept_class_id,
-            standard_concept: $standard_concept,
-            concept_code: $concept_code,
-            valid_start_date: $valid_start_date,
-            valid_end_date: $valid_end_date,
-            invalid_reason: $invalid_reason
-        })
+        MERGE (n:SNOMEDConcept {concept_id: $concept_id})
+        ON CREATE SET 
+            n.concept_name = $concept_name,
+            n.domain_id = $domain_id,
+            n.vocabulary_id = $vocabulary_id,
+            n.concept_class_id = $concept_class_id,
+            n.standard_concept = $standard_concept,
+            n.concept_code = $concept_code,
+            n.valid_start_date = $valid_start_date,
+            n.valid_end_date = $valid_end_date,
+            n.invalid_reason = $invalid_reason
         """
-
         for node_id, node_data in graph.nodes(data=True):
             node_data = node_data.get("data", {})
-
             if hasattr(node_data, "__dict__"):
                 node_data = node_data.__dict__
-            # Ensure all properties are present, use None if missing
-
             properties = {
                 "concept_id": node_id,  # Use node_id as concept_id
                 "concept_name": node_data.get("concept_name", ""),
@@ -89,7 +84,6 @@ class ImportNXGraphIntoNeo4J:
                 "valid_end_date": node_data.get("valid_end_date", ""),
                 "invalid_reason": node_data.get("invalid_reason", ""),
             }
-
             tx.run(query, **properties)
 
     def _create_relationships(self, tx, graph):
@@ -97,11 +91,17 @@ class ImportNXGraphIntoNeo4J:
         query = """
         MATCH (source:SNOMEDConcept {concept_id: $source_id}),
               (target:SNOMEDConcept {concept_id: $target_id})
-        CREATE (source)-[r:IS_A]->(target)
-        SET r += $properties
+        MERGE (source)-[r:IS_A]->(target)
+        ON CREATE SET r += $properties
         """
-
         for source, target, edge_data in graph.edges(data=True):
             tx.run(
                 query, source_id=source, target_id=target, properties=edge_data or {}
             )
+
+
+db_path = "data/full_data.duckdb"
+service = ImportNXGraphIntoNeo4J(
+    db_path=db_path, uri="bolt://localhost:", user="neo4j", password="12345678"
+)
+service.call()
