@@ -86,17 +86,28 @@ class ImportNXGraphIntoNeo4J:
             }
             tx.run(query, **properties)
 
+    def _relationship_query(self, relationship_type: str):
+        return f"""
+            MATCH (source:SNOMEDConcept {{concept_id: $source_id}}),
+                  (target:SNOMEDConcept {{concept_id: $target_id}})
+            MERGE (source)-[r:{relationship_type}]->(target)
+            ON CREATE SET r += $properties
+        """
+
     def _create_relationships(self, tx, graph):
         """Create relationships between SNOMED CT concepts in Neo4j."""
-        query = """
-        MATCH (source:SNOMEDConcept {concept_id: $source_id}),
-              (target:SNOMEDConcept {concept_id: $target_id})
-        MERGE (source)-[r:IS_A]->(target)
-        ON CREATE SET r += $properties
-        """
         for source, target, edge_data in graph.edges(data=True):
+            relationship_type = edge_data.get("relationship", "is_ancestor_of").upper()
+            properties = edge_data.copy()
+            properties.pop("relationship", None)
+
+            query = self._relationship_query(relationship_type)
             tx.run(
-                query, source_id=source, target_id=target, properties=edge_data or {}
+                query,
+                source_id=source,
+                target_id=target,
+                properties=edge_data or {},
+                relationship_type=relationship_type,
             )
 
 
