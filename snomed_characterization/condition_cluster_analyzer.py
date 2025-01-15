@@ -3,19 +3,20 @@ from networkx.algorithms import community
 import numpy as np
 from collections import defaultdict
 from typing import List, Dict, Set
-
+import pyroaring as pr
 
 class ConditionClusterAnalyzer:
     def __init__(self, snomed_graph: nx.DiGraph):
         self.snomed_graph = snomed_graph
         self.cooccurrence_graph = nx.Graph()
 
-    def build_cooccurrence_network(self, patient_conditions: List[List[int]]):
+    def build_cooccurrence_network(self, patient_conditions: List[pr.BitMap]):
         condition_pairs = defaultdict(int)
 
         # TODO: improve the network build (normalize weights, )
         # Count co-occurrences
-        for conditions in patient_conditions:
+        for condition_bitmap in patient_conditions:
+            conditions = list(condition_bitmap)
             for i in range(len(conditions)):
                 for j in range(i + 1, len(conditions)):
                     pair = tuple(sorted([conditions[i], conditions[j]]))
@@ -26,9 +27,7 @@ class ConditionClusterAnalyzer:
             # TODO: check if we can add a contion to add an edge depending on the ocurrences..
             self.cooccurrence_graph.add_edge(cond1, cond2, weight=count)
 
-    def detect_clusters(
-        self, method: str = "greedy_modularity", **kwargs
-    ) -> Dict[int, int]:
+    def detect_clusters(self, method: str = "greedy_modularity", **kwargs) -> Dict[int, int]:
         # TODO: check best community approach
         """
         Detect clusters using NetworkX community detection algorithms
@@ -41,24 +40,10 @@ class ConditionClusterAnalyzer:
             Dictionary mapping node IDs to community IDs
         """
         if method == "greedy_modularity":
-            communities = community.greedy_modularity_communities(
-                self.cooccurrence_graph
-            )
-            # Convert to dict format
-            return {node: i for i, comm in enumerate(communities) for node in comm}
-
-        # can't be used in digraph
-        elif method == "label_propagation":
-            communities = community.label_propagation_communities(
+            communities = nx.algorithms.community.greedy_modularity_communities(
                 self.cooccurrence_graph
             )
             return {node: i for i, comm in enumerate(communities) for node in comm}
-
-        elif method == "girvan_newman":
-            # Get the first level of hierarchy from Girvan-Newman
-            communities = next(community.girvan_newman(self.cooccurrence_graph))
-            return {node: i for i, comm in enumerate(communities) for node in comm}
-
         else:
             raise ValueError(f"Unsupported method: {method}")
 
@@ -78,22 +63,18 @@ class ConditionClusterAnalyzer:
             community_sets[comm_id].add(node)
 
         metrics = {
-            "modularity": community.modularity(
+            "modularity": nx.algorithms.community.quality.modularity(
                 self.cooccurrence_graph, community_sets.values()
             ),
             "num_communities": len(community_sets),
-            "avg_community_size": np.mean(
-                [len(comm) for comm in community_sets.values()]
-            ),
-            "min_community_size": min(len(comm) for comm in community_sets.values()),
-            "max_community_size": max(len(comm) for comm in community_sets.values()),
+            "avg_community_size": sum(len(c) for c in community_sets.values()) / len(community_sets),
+            "min_community_size": min(len(c) for c in community_sets.values()),
+            "max_community_size": max(len(c) for c in community_sets.values()),
         }
 
         return metrics
 
-    def enrich_clusters_with_snomed(
-        self, communities: Dict[int, int]
-    ) -> Dict[int, Set[int]]:
+    def enrich_clusters_with_snomed(self, communities: Dict[int, int]) -> Dict[int, Set[int]]:
         """
         Enrich clusters with SNOMED parent concepts
 
@@ -107,11 +88,9 @@ class ConditionClusterAnalyzer:
 
         for condition, cluster_id in communities.items():
             try:
-                # XXX: check with Anton. not sure about this
                 ancestors = nx.ancestors(self.snomed_graph, condition)
                 cluster_parents[cluster_id].update(ancestors)
             except nx.NetworkXError:
-                print(f"Error finding ancestors for condition {condition}")
                 continue
 
         return cluster_parents
