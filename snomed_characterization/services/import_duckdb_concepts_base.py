@@ -1,5 +1,5 @@
 import duckdb
-from typing import Union
+from typing import Union, Optional
 from pandas import DataFrame
 
 from snomed_characterization.graphs.snomed_complete_graph_builder import (
@@ -14,7 +14,7 @@ class ImportDuckDBConceptsBase:
     def __init__(
         self,
         db_path,
-        snomed_graph: Union[SNOMEDCompleteGraphBuilder, SNOMEDGraphBuilder],
+        snomed_graph: Optional[Union[SNOMEDCompleteGraphBuilder, SNOMEDGraphBuilder]],
     ):
         self.db_path = db_path
         self.snomed_graph = snomed_graph
