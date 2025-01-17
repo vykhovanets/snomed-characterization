@@ -22,6 +22,9 @@ q_concepts = """
     """
 
 q_people_concepts = """
-    select distinct condition_concept_id
-    from condition_occurrence;
+    SELECT DISTINCT co.* 
+    FROM main.condition_occurrence co 
+    JOIN main.concept c 
+    ON c.concept_id = co.condition_concept_id 
+    WHERE c.domain_id ='Condition';
     """
