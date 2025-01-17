@@ -4,7 +4,11 @@ q_concepts = """
             descendant_concept_id,
             ARRAY_AGG(ancestor_concept_id ORDER BY ancestor_concept_id) as level_1_ancestors
         FROM concept_ancestor ca
+        JOIN concept_relationship cr 
+        ON ca.ancestor_concept_id = cr.concept_id_2
+        AND ca.descendant_concept_id = cr.concept_id_1
         WHERE min_levels_of_separation = 1
+        AND cr.relationship_id = 'Is a'
         GROUP BY descendant_concept_id
     )
     SELECT 
