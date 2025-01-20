@@ -5,6 +5,8 @@ import networkx as nx
 import numpy as np
 from typing import List, Dict, Set
 
+HQ_DPI = 300
+
 
 class SNOMEDClusterVisualizer:
     def __init__(
@@ -37,7 +39,7 @@ class SNOMEDClusterVisualizer:
         plt.ylabel("Count")
 
         if save_path:
-            plt.savefig(save_path)
+            plt.savefig(save_path, dpi=HQ_DPI)
         plt.show()
 
     def plot_similarity_distribution(self, save_path: str = None):
@@ -53,7 +55,7 @@ class SNOMEDClusterVisualizer:
         plt.ylabel("Count")
 
         if save_path:
-            plt.savefig(save_path)
+            plt.savefig(save_path, dpi=HQ_DPI)
         plt.show()
 
     def plot_concept_connectivity(self, top_n: int = 20, save_path: str = None):
@@ -84,7 +86,7 @@ class SNOMEDClusterVisualizer:
         plt.xlabel("Number of Connections")
 
         if save_path:
-            plt.savefig(save_path)
+            plt.savefig(save_path, dpi=HQ_DPI)
         plt.show()
 
     def plot_cluster_similarity_heatmap(self, save_path: str = None):
@@ -111,7 +113,7 @@ class SNOMEDClusterVisualizer:
         plt.title("Inter-cluster Similarity Heatmap")
 
         if save_path:
-            plt.savefig(save_path)
+            plt.savefig(save_path, dpi=HQ_DPI)
         plt.show()
 
     def _calculate_cluster_similarity(
@@ -175,7 +177,7 @@ class SNOMEDClusterVisualizer:
         plt.xlabel("Number of Connections")
 
         if save_path:
-            plt.savefig(save_path)
+            plt.savefig(save_path, dpi=HQ_DPI)
         plt.show()
 
 

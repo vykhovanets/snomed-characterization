@@ -3,7 +3,6 @@ import psutil
 import gc
 import time
 import sys
-import random
 import networkx as nx
 from pyroaring import BitMap
 from snomed_characterization.graphs.bitmap_graph import (
@@ -49,9 +48,9 @@ def generate_test_hierarchy(num_concepts: int, avg_parents: int = 2):
     descendant_relationships = []  # (source, target, "is_descendant_of")
 
     for concept in range(1, num_concepts):
-        num_parents = min(random.randint(1, avg_parents), concept)
+        num_parents = min(avg_parents, concept)
         if num_parents > 0:
-            parents = random.sample(range(concept), num_parents)
+            parents = list(range(max(0, concept - num_parents), concept))
             # Add both ancestor and descendant relationships
             for parent in parents:
                 ancestor_relationships.append((parent, concept))
@@ -105,7 +104,7 @@ def memory_comparison_test(num_concepts: int):
 
     # Test operations on a sample of nodes
     num_samples = min(100, num_concepts)
-    sample_nodes = random.sample(concepts, num_samples)
+    sample_nodes = concepts[:num_samples]
 
     # Ancestor lookup
     start = time.time()
@@ -166,3 +165,19 @@ def memory_comparison_test(num_concepts: int):
     )
 
     return results
+
+
+benchmark_values = [
+    10000,
+    20000,
+    50000,
+    100000,
+    200000,
+    500000,
+    1000000,
+    5000000,
+    8000000,
+    9000000,
+]
+for benchmark_value in benchmark_values:
+    memory_comparison_test(benchmark_value)
